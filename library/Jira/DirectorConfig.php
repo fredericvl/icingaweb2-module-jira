@@ -121,6 +121,10 @@ class DirectorConfig
                 'description' => 'D not acknowledge  Icinga problems once a JIRA'
                     . ' issue got created',
             ],
+            '--auto-close-issue' => (object) [
+                'value'       => '$jira_auto_close_issue$',
+                'description' => 'Auto close JIRA issue when state gets resolved',
+            ],
             '--command-pipe' => (object) [
                 'value'       => '$jira_command_pipe$',
                 'description' => 'Legacy Icinga command pipe. Should only be'
