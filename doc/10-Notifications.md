@@ -40,6 +40,7 @@ OPTIONAL
   --ack-author <author>      Username shown for acknowledgements,
                              defaults to "JIRA"
   --no-acknowledge           Do not acknowledge Icinga problem
+  --auto-close-issue         Auto clause JIRA issue when state gets resolved
   --command-pipe <path>      Legacy command pipe, allows to run without
                              depending on a configured monitoring module
 
@@ -62,6 +63,10 @@ object NotificationCommand "JIRA Host Notification" {
         "--ack-author" = {
             description = "This author name will be used when acknowledging Icinga problems once a JIRA issue got created"
             value = "$jira_ack_author$"
+        }
+        "--auto-close-issue" = {
+            description = "Auto close JIRA issue when state gets resolved"
+            value = "$jira_auto_close_issue$"
         }
         "--command-pipe" = {
             description = "Legacy Icinga command pipe. Should only be used on Icinga 1.x system without a correctly configured Icinga Web 2 monitoring module"
@@ -117,6 +122,10 @@ object NotificationCommand "JIRA Service Notification" {
         "--ack-author" = {
             description = "This author name will be used when acknowledging Icinga problems once a JIRA issue got created"
             value = "$jira_ack_author$"
+        }
+        "--auto-close-issue" = {
+            description = "Auto close JIRA issue when state gets resolved"
+            value = "$jira_auto_close_issue$"
         }
         "--command-pipe" = {
             description = "Legacy Icinga command pipe. Should only be used on Icinga 1.x system without a correctly configured Icinga Web 2 monitoring module"
