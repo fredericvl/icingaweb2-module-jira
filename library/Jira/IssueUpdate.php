@@ -13,6 +13,8 @@ class IssueUpdate
 
     protected $fields = [];
 
+    protected $close = false;
+
     /** @var string */
     protected $key;
 
@@ -27,6 +29,11 @@ class IssueUpdate
         $this->fields[$key] = $value;
 
         return $this;
+    }
+
+    public function closeIssue()
+    {
+        $this->close = true;
     }
 
     public function addComment($body)
@@ -53,6 +60,10 @@ class IssueUpdate
             foreach ($this->fields as $name => $value) {
                 $data->fields->$name = $value;
             }
+        }
+        if (isset($this->close)) {
+            $data->transition = (object) [];
+            $data->transition->id = "5";
         }
 
         if (empty($data)) {

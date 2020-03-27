@@ -38,6 +38,7 @@ class SendCommand extends Command
      *   --ack-author <author>      Username shown for acknowledgements,
      *                              defaults to "JIRA"
      *   --no-acknowledge           Do not acknowledge Icinga problem
+     *   --auto-close-issue         Auto clause JIRA issue when state gets resolved
      *   --command-pipe <path>      Legacy command pipe, allows to run without
      *                              depending on a configured monitoring module
      *
@@ -93,6 +94,13 @@ class SendCommand extends Command
                 $update = new IssueUpdate($jira, $key);
                 $update->setCustomField('icingaStatus', $status);
                 $update->addComment("Status changed to $status\n" . $description);
+
+                if (\in_array($status, ['UP', 'OK'])) {
+                    if($this->params->shift('auto-close-issue')) {
+                        $update->closeIssue();
+                    }
+                }
+
                 $jira->updateIssue($update);
             }
         }
