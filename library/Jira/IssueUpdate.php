@@ -67,6 +67,7 @@ class IssueUpdate
             }
         }
         if ($this->close === true) {
+            $data->fields->resolution = (object) ['name' => 'Fixed'];
             $data->transition = (object) ['id' => '61'];
         }
 
