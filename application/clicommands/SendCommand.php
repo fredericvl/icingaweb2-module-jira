@@ -97,6 +97,7 @@ class SendCommand extends Command
 
                 if (\in_array($status, ['UP', 'OK'])) {
                     if($this->params->shift('auto-close-issue')) {
+                        $update->setCustomField('resolution', 'Fixed');
                         $update->closeIssue();
                     }
                 }

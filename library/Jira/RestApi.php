@@ -125,7 +125,11 @@ class RestApi
 
     public function updateIssue(IssueUpdate $update)
     {
-        return $this->put('issue/' . urlencode($update->getKey()), $update->toObject());
+        if($update->needsClosure() === true) {
+            return $this->post('issue/' . urlencode($update->getKey()) . '/transitions', $update->toObject());
+        } else {
+            return $this->put('issue/' . urlencode($update->getKey()), $update->toObject());
+        }
     }
 
     protected function prepareIssueQuery($host = null, $service = null, $onlyOpen = true)

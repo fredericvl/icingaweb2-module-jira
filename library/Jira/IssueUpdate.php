@@ -46,6 +46,11 @@ class IssueUpdate
         return $this->key;
     }
 
+    public function needsClosure()
+    {
+        return $this->close;
+    }
+
     public function toObject()
     {
         $data = (object) [];
