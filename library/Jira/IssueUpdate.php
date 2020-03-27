@@ -61,7 +61,7 @@ class IssueUpdate
                 $data->fields->$name = $value;
             }
         }
-        if (isset($this->close)) {
+        if ($this->close === true) {
             $data->transition = (object) ['id' => "5"];
         }
 
