@@ -103,7 +103,7 @@ class SendCommand extends Command
                     }
                 }
                 if (\in_array($status, ['DOWN', 'CRITICAL', 'WARNING'])) {
-                    if($autoClose && && strpos($issue->fields->status, 'closed') !== false) {
+                    if($autoClose && strpos($issue->fields->status, 'closed') !== false) {
                         $update->openIssue();
                     }
                 }
