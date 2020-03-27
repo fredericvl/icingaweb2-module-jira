@@ -98,12 +98,12 @@ class SendCommand extends Command
                 $update->addComment("Status changed to $status\n" . $description);
 
                 if (\in_array($status, ['UP', 'OK'])) {
-                    if($autoClose && strpos((string)$issue->fields->status, 'open') !== false) {
+                    if($autoClose && stripos($issue->fields->status->name, 'to do') !== false) {
                         $update->closeIssue();
                     }
                 }
                 if (\in_array($status, ['DOWN', 'CRITICAL', 'WARNING'])) {
-                    if($autoClose && strpos((string)$issue->fields->status, 'closed') !== false) {
+                    if($autoClose && stripos($issue->fields->status->name, 'resolved') !== false) {
                         $update->openIssue();
                     }
                 }
