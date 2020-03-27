@@ -132,12 +132,14 @@ class RestApi
         }
     }
 
-    protected function prepareIssueQuery($host = null, $service = null, $onlyOpen = true)
+    protected function prepareIssueQuery($host = null, $service = null, $onlyOpen = true, $autoClose = false)
     {
         // TODO: eventually also filter for project = "..."?
         $query = 'creator = currentUser()';
 
-        if ($onlyOpen) {
+        if($autoClose) {
+            $query .= ' AND status != "CLOSED"';
+        } elseif ($onlyOpen) {
             $query .= ' AND resolution is empty';
         }
 

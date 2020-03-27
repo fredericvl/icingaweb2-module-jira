@@ -60,7 +60,7 @@ class SendCommand extends Command
         $description = $p->shiftRequired('description');
 
         $jira = $this->jira();
-        $issue = $jira->eventuallyGetLatestOpenIssueFor($host, $service);
+        $issue = $jira->eventuallyGetLatestOpenIssueFor($host, $service, true, $this->params->shift('auto-close-issue'));
 
         if ($issue === null) {
             if (\in_array($status, ['UP', 'OK'])) {
@@ -98,6 +98,11 @@ class SendCommand extends Command
                 if (\in_array($status, ['UP', 'OK'])) {
                     if($this->params->shift('auto-close-issue')) {
                         $update->closeIssue();
+                    }
+                }
+                if (\in_array($status, ['DOWN', 'CRITICAL', 'WARNING'])) {
+                    if($this->params->shift('auto-close-issue')) {
+                        $update->openIssue();
                     }
                 }
 

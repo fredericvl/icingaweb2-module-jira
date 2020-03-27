@@ -13,7 +13,9 @@ class IssueUpdate
 
     protected $fields = [];
 
-    protected $close = false;
+    protected $needsToClose = false;
+
+    protected $needsToOpen = false;
 
     /** @var string */
     protected $key;
@@ -33,7 +35,12 @@ class IssueUpdate
 
     public function closeIssue()
     {
-        $this->close = true;
+        $this->needsToClose = true;
+    }
+
+    public function openIssue()
+    {
+        $this->needsToOpen = true;
     }
 
     public function addComment($body)
@@ -48,7 +55,12 @@ class IssueUpdate
 
     public function needsClosure()
     {
-        return $this->close;
+        return $this->needsToClose;
+    }
+
+    public function needsOpening()
+    {
+        return $this->needsToOpen;
     }
 
     public function toObject()
@@ -66,9 +78,12 @@ class IssueUpdate
                 $data->fields->$name = $value;
             }
         }
-        if ($this->close === true) {
+        if ($this->needsToClose) {
             $data->fields->resolution = (object) ['name' => 'Fixed'];
             $data->transition = (object) ['id' => '61'];
+        }
+        if ($this->needsToOpen) {
+            $data->transition = (object) ['id' => '111'];
         }
 
         if (empty($data)) {
