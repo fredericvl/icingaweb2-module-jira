@@ -83,7 +83,7 @@ class IssueUpdate
             $data->transition = (object) ['id' => '61'];
         }
         if ($this->needsToOpen) {
-            $data->fields->assignee = (object) ['name' => '']
+            $data->fields->assignee = (object) ['name' => ''];
             $data->transition = (object) ['id' => '111'];
         }
 
