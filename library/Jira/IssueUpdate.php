@@ -78,11 +78,11 @@ class IssueUpdate
                 $data->fields->$name = $value;
             }
         }
-        if ($this->needsToClose === true) {
+        if ($this->needsToClose) {
             $data->fields->resolution = (object) ['name' => 'Fixed'];
             $data->transition = (object) ['id' => '61'];
         }
-        if ($this->needsToOpen === true) {
+        if ($this->needsToOpen) {
             $data->transition = (object) ['id' => '111'];
         }
 

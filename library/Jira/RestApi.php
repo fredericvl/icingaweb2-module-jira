@@ -95,12 +95,12 @@ class RestApi
         }
     }
 
-    public function eventuallyGetLatestOpenIssueFor($host, $service = null)
+    public function eventuallyGetLatestOpenIssueFor($host, $service = null, $autoClose = false)
     {
         try {
             $start = 0;
             $limit = 1;
-            $query = $this->prepareIssueQuery($host, $service, true);
+            $query = $this->prepareIssueQuery($host, $service, true, $autoClose);
 
             $issues = $this->post('search', [
                 'jql'        => $query,
