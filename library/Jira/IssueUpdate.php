@@ -62,8 +62,7 @@ class IssueUpdate
             }
         }
         if (isset($this->close)) {
-            $data->transition = (object) [];
-            $data->transition->id = "5";
+            $data->transition = (object) ['id' => "5"];
         }
 
         if (empty($data)) {
