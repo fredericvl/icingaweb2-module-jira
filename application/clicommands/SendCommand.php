@@ -59,7 +59,7 @@ class SendCommand extends Command
         $status      = $p->shiftRequired('state');
         $description = $p->shiftRequired('description');
 
-        $autoClose   = $p->shift('auto-close-issue')
+        $autoClose   = $p->shift('auto-close-issue');
 
         $jira = $this->jira();
         $issue = $jira->eventuallyGetLatestOpenIssueFor($host, $service, $autoClose);
