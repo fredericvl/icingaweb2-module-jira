@@ -35,14 +35,17 @@ REQUIRED OPTIONS
 
 OPTIONAL
 
-  --service <service-name>   Icinga Service name
-  --template <template-name> Template name (templates.ini section)
-  --ack-author <author>      Username shown for acknowledgements,
-                             defaults to "JIRA"
-  --no-acknowledge           Do not acknowledge Icinga problem
-  --auto-close-issue         Auto clause JIRA issue when state gets resolved
-  --command-pipe <path>      Legacy command pipe, allows to run without
-                             depending on a configured monitoring module
+  --service <service-name>      Icinga Service name
+  --template <template-name>    Template name (templates.ini section)
+  --ack-author <author>         Username shown for acknowledgements,
+                                defaults to "JIRA"
+  --no-acknowledge              Do not acknowledge Icinga problem
+  --auto-close-issue            Auto close JIRA issue when state gets resolved
+  --close-issue-transition-id   Transition ID for workflow to close the issue
+  --close-issue-resolution-name Resolution name to set when closing the issue
+  --open-issue-transition-id    Transition ID for workflow to open the issue
+  --command-pipe <path>         Legacy command pipe, allows to run without
+                                depending on a configured monitoring module
 
 FLAGS
   --verbose    More log information

@@ -125,6 +125,18 @@ class DirectorConfig
                 'value'       => '$jira_auto_close_issue$',
                 'description' => 'Auto close JIRA issue when state gets resolved',
             ],
+            '--close-issue-transition-id' => (object) [
+                'value'       => '$jira_close_issue_transition_id$',
+                'description' => 'Transition ID for workflow to close the issue',
+            ],
+            '--close-issue-resolution-name' => (object) [
+                'value'       => '$jira_close_issue_resolution_name$',
+                'description' => 'Resolution name to set when closing the issue',
+            ],
+            '--open-issue-transition-id' => (object) [
+                'value'       => '$jira_open_issue_transition_id$',
+                'description' => 'Transition ID for workflow to open the issue',
+            ],
             '--command-pipe' => (object) [
                 'value'       => '$jira_command_pipe$',
                 'description' => 'Legacy Icinga command pipe. Should only be'

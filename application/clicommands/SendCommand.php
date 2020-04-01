@@ -33,14 +33,17 @@ class SendCommand extends Command
      *
      * OPTIONAL
      *
-     *   --service <service-name>   Icinga Service name
-     *   --template <template-name> Template name (templates.ini section)
-     *   --ack-author <author>      Username shown for acknowledgements,
-     *                              defaults to "JIRA"
-     *   --no-acknowledge           Do not acknowledge Icinga problem
-     *   --auto-close-issue         Auto clause JIRA issue when state gets resolved
-     *   --command-pipe <path>      Legacy command pipe, allows to run without
-     *                              depending on a configured monitoring module
+     *   --service <service-name>      Icinga Service name
+     *   --template <template-name>    Template name (templates.ini section)
+     *   --ack-author <author>         Username shown for acknowledgements,
+     *                                 defaults to "JIRA"
+     *   --no-acknowledge              Do not acknowledge Icinga problem
+     *   --auto-close-issue            Auto close JIRA issue when state gets resolved
+     *   --close-issue-transition-id   Transition ID for workflow to close the issue
+     *   --close-issue-resolution-name Resolution name to set when closing the issue
+     *   --open-issue-transition-id    Transition ID for workflow to open the issue
+     *   --command-pipe <path>         Legacy command pipe, allows to run without
+     *                                 depending on a configured monitoring module
      *
      * FLAGS
      *   --verbose    More log information
@@ -97,14 +100,19 @@ class SendCommand extends Command
                 $update->addComment("Status changed to $status\n" . $description);
 
                 if (\in_array($status, ['UP', 'OK'])) {
-                    if($autoClose && stripos($issue->fields->status->name, 'to do') !== false) {
-                        $update->closeIssue('61', 'Fixed'); // closeIssue($transitionId, $resolutionName)
+                    if($autoClose && stripos($issue->fields->status->name, 'resolved') === false) {
+                        $closeTransitionId   = $p->shiftRequired('close-issue-transition-id');
+                        $closeResolutionName = $p->shiftRequired('close-issue-resolution-name');
+                        
+                        $update->closeIssue($closeTransitionId, $closeResolutionName); // closeIssue($transitionId, $resolutionName)
                     }
                 }
                 if (\in_array($status, ['DOWN', 'CRITICAL', 'WARNING'])) {
                     $ackMessage = "Existing JIRA issue $key has been found";
                     if($autoClose && stripos($issue->fields->status->name, 'resolved') !== false) {
-                        $update->openIssue('111'); // openIssue($transitionId)
+                        $openTransitionId = $p->shiftRequired('open-issue-transition-id');
+
+                        $update->openIssue($openTransitionId); // openIssue($transitionId)
                     }
                 }
 
