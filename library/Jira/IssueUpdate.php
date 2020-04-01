@@ -40,7 +40,7 @@ class IssueUpdate
     {
         $this->needsToClose        = true;
         $this->closeTransitionId   = $transitionId;
-        $this->closeResolutionName = $resolutionName
+        $this->closeResolutionName = $resolutionName;
     }
 
     public function openIssue($transitionId)
