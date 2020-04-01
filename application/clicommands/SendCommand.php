@@ -124,7 +124,7 @@ class SendCommand extends Command
             return;
         }
 
-        if (isset($ackMessage)) {}
+        if (isset($ackMessage)) {
             try {
                 if ($ackPipe) {
                     $cmd = new LegacyCommandPipe($ackPipe);
