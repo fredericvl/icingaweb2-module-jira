@@ -98,13 +98,13 @@ class SendCommand extends Command
 
                 if (\in_array($status, ['UP', 'OK'])) {
                     if($autoClose && stripos($issue->fields->status->name, 'to do') !== false) {
-                        $update->closeIssue();
+                        $update->closeIssue('61', 'Fixed'); // closeIssue($transitionId, $resolutionName)
                     }
                 }
                 if (\in_array($status, ['DOWN', 'CRITICAL', 'WARNING'])) {
                     $ackMessage = "Existing JIRA issue $key has been found";
                     if($autoClose && stripos($issue->fields->status->name, 'resolved') !== false) {
-                        $update->openIssue();
+                        $update->openIssue('111'); // openIssue($transitionId)
                     }
                 }
 

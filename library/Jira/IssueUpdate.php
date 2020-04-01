@@ -14,8 +14,11 @@ class IssueUpdate
     protected $fields = [];
 
     protected $needsToClose = false;
+    protected $closeTransitionId;
+    protected $closeResolutionName;
 
     protected $needsToOpen = false;
+    protected $openTransitionId;
 
     /** @var string */
     protected $key;
@@ -33,14 +36,17 @@ class IssueUpdate
         return $this;
     }
 
-    public function closeIssue()
+    public function closeIssue($transitionId, $resolutionName)
     {
-        $this->needsToClose = true;
+        $this->needsToClose        = true;
+        $this->closeTransitionId   = $transitionId;
+        $this->closeResolutionName = $resolutionName
     }
 
-    public function openIssue()
+    public function openIssue($transitionId)
     {
-        $this->needsToOpen = true;
+        $this->needsToOpen      = true;
+        $this->openTransitionId = $transitionId;
     }
 
     public function addComment($body)
@@ -79,12 +85,12 @@ class IssueUpdate
             }
         }
         if ($this->needsToClose) {
-            $data->fields->resolution = (object) ['name' => 'Fixed'];
-            $data->transition = (object) ['id' => '61'];
+            $data->fields->resolution = (object) ['name' => $this->closeResolutionName];
+            $data->transition = (object) ['id' => $this->closeTransitionId];
         }
         if ($this->needsToOpen) {
             $data->fields->assignee = (object) ['name' => ''];
-            $data->transition = (object) ['id' => '111'];
+            $data->transition = (object) ['id' => $this->openTransitionId];
         }
 
         if (empty($data)) {
