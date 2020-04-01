@@ -91,7 +91,6 @@ class SendCommand extends Command
         } else {
             $key = $issue->key;
             $currentStatus = isset($issue->fields->icingaStatus) ? $issue->fields->icingaStatus : null;
-            $ackMessage = "Existing JIRA issue $key has been found";
             if ($currentStatus !== $status) {
                 $update = new IssueUpdate($jira, $key);
                 $update->setCustomField('icingaStatus', $status);
@@ -103,6 +102,7 @@ class SendCommand extends Command
                     }
                 }
                 if (\in_array($status, ['DOWN', 'CRITICAL', 'WARNING'])) {
+                    $ackMessage = "Existing JIRA issue $key has been found";
                     if($autoClose && stripos($issue->fields->status->name, 'resolved') !== false) {
                         $update->openIssue();
                     }
@@ -116,17 +116,19 @@ class SendCommand extends Command
             return;
         }
 
-        try {
-            if ($ackPipe) {
-                $cmd = new LegacyCommandPipe($ackPipe);
-            } else {
-                $cmd = new IcingaCommandPipe();
+        if (isset($ackMessage)) {}
+            try {
+                if ($ackPipe) {
+                    $cmd = new LegacyCommandPipe($ackPipe);
+                } else {
+                    $cmd = new IcingaCommandPipe();
+                }
+                if ($cmd->acknowledge($ackAuthor, $ackMessage, $host, $service)) {
+                    Logger::info("Problem has been acknowledged for $key");
+                }
+            } catch (Exception $e) {
+                Logger::error($e->getMessage());
             }
-            if ($cmd->acknowledge($ackAuthor, $ackMessage, $host, $service)) {
-                Logger::info("Problem has been acknowledged for $key");
-            }
-        } catch (Exception $e) {
-            Logger::error($e->getMessage());
         }
     }
 }
